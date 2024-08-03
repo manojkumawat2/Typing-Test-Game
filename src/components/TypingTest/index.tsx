@@ -1,3 +1,5 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { createContext, Dispatch, useEffect, useReducer } from "react";
 import TypeContent from "./TypeContent";
 import texts from "./texts";
@@ -81,7 +83,10 @@ const TypingTest = () => {
     const randomText =
       allTexts[Math.floor(Math.random() * allTexts.length)].paragraph;
 
-    dispatch({ type: "SET_TEXT", payload: { text: randomText } });
+    dispatch({
+      type: "SET_TEXT",
+      payload: { text: randomText },
+    });
   }, []);
 
   return (

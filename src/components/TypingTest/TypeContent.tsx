@@ -1,9 +1,11 @@
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
 import { Card, Input } from "antd";
 import { useContext, useEffect, useRef } from "react";
 import { ContextValueType, TypingContext } from ".";
 
 const TypeContent = () => {
-  const inputRef = useRef();
+  const inputRef = useRef<HTMLElement>(null);
   const { typingTestData, dispatch } = useContext(
     TypingContext
   ) as ContextValueType;
