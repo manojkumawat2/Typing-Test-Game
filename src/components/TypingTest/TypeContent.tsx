@@ -22,7 +22,7 @@ const TypeContent = () => {
     }
 
     if (event.nativeEvent.inputType === "deleteContentBackward") {
-      if (typingTestData.incorrectText.length > 0)
+      if (typingTestData.correctIdx !== typingTestData.idx)
         dispatch({
           type: "UPDATE_INCORRECT_TEXT",
           payload: { type: "REMOVE" },
@@ -32,7 +32,7 @@ const TypeContent = () => {
 
     if (
       currIndex === typingTestData.text.length - 1 &&
-      typingTestData.incorrectText.length === 0
+      typingTestData.correctIdx === typingTestData.idx - 1
     ) {
       clearInterval(typingTestData.timeInterval);
       dispatch({ type: "STOP_TYPING" });
@@ -40,7 +40,7 @@ const TypeContent = () => {
 
     if (
       typingTestData.text[currIndex] === input &&
-      typingTestData.incorrectText.length === 0
+      typingTestData.correctIdx === typingTestData.idx - 1
     ) {
       dispatch({ type: "TEXT_INPUT", payload: { text: input } });
     } else {
@@ -57,15 +57,19 @@ const TypeContent = () => {
         style={{
           maxWidth: 800,
           fontSize: "30px",
-          fontWeight: "450",
+          fontWeight: "300",
           backgroundColor: "white",
+          letterSpacing: 1,
         }}
       >
         <span style={{ color: "white", backgroundColor: "green" }}>
-          {typingTestData.correctText}
+          {typingTestData.text.substring(0, typingTestData.correctIdx + 1)}
         </span>
         <span style={{ color: "white", backgroundColor: "red" }}>
-          {typingTestData.incorrectText}
+          {typingTestData.text.substring(
+            typingTestData.correctIdx + 1,
+            typingTestData.idx
+          )}
         </span>
         <span style={{ color: "black" }}>
           {typingTestData.text.substring(typingTestData.idx)}

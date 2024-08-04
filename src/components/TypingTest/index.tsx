@@ -7,8 +7,7 @@ import StartGame from "./StartGame";
 
 interface TypingDataType {
   text: string;
-  correctText: string;
-  incorrectText: string;
+  correctIdx: number;
   time: number;
   timeInterval: number | undefined;
   idx: number;
@@ -27,8 +26,7 @@ export interface ContextValueType {
 
 const initialTypingData: TypingDataType = {
   text: "",
-  correctText: "",
-  incorrectText: "",
+  correctIdx: -1,
   time: 0,
   idx: 0,
   isStarted: false,
@@ -44,7 +42,7 @@ const reducer = (state: TypingDataType, action: TypingTestAction) => {
       return {
         ...state,
         idx: state.idx + 1,
-        correctText: state.correctText + action.payload.text,
+        correctIdx: state.correctIdx + 1,
       };
     }
     case "START_TYPING": {
@@ -52,7 +50,7 @@ const reducer = (state: TypingDataType, action: TypingTestAction) => {
         ...state,
         isStarted: true,
         timeInterval: action.payload.interval,
-        correctText: "",
+        correctIdx: -1,
         time: 0,
         idx: 0,
       };
@@ -70,18 +68,15 @@ const reducer = (state: TypingDataType, action: TypingTestAction) => {
       };
     }
     case "UPDATE_INCORRECT_TEXT": {
-      let incorrectText = state.incorrectText;
       let idx = state.idx;
       if (action.payload.type === "ADD") {
-        incorrectText += state.text[idx];
         idx += 1;
       } else {
-        incorrectText = incorrectText.substring(0, incorrectText.length - 1);
+        if (state.correctIdx === idx - 1) return state;
         idx -= 1;
       }
       return {
         ...state,
-        incorrectText,
         idx,
       };
     }

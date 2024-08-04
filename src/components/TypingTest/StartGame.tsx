@@ -15,7 +15,7 @@ const StartGame = () => {
   };
 
   const speed = Math.ceil(
-    typingTestData.correctText.length / 5 / (typingTestData.time / 60)
+    (typingTestData.correctIdx + 1) / 5 / (typingTestData.time / 60)
   );
 
   return (
