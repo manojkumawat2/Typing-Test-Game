@@ -20,13 +20,34 @@ const TypeContent = () => {
     if (currIndex >= typingTestData.text.length) {
       return;
     }
-    if (currIndex === typingTestData.text.length - 1) {
+
+    if (event.nativeEvent.inputType === "deleteContentBackward") {
+      if (typingTestData.incorrectText.length > 0)
+        dispatch({
+          type: "UPDATE_INCORRECT_TEXT",
+          payload: { type: "REMOVE" },
+        });
+      return;
+    }
+
+    if (
+      currIndex === typingTestData.text.length - 1 &&
+      typingTestData.incorrectText.length === 0
+    ) {
       clearInterval(typingTestData.timeInterval);
       dispatch({ type: "STOP_TYPING" });
     }
 
-    if (typingTestData.text[currIndex] === input) {
+    if (
+      typingTestData.text[currIndex] === input &&
+      typingTestData.incorrectText.length === 0
+    ) {
       dispatch({ type: "TEXT_INPUT", payload: { text: input } });
+    } else {
+      dispatch({
+        type: "UPDATE_INCORRECT_TEXT",
+        payload: { type: "ADD" },
+      });
     }
   };
 
@@ -42,6 +63,9 @@ const TypeContent = () => {
       >
         <span style={{ color: "white", backgroundColor: "green" }}>
           {typingTestData.correctText}
+        </span>
+        <span style={{ color: "white", backgroundColor: "red" }}>
+          {typingTestData.incorrectText}
         </span>
         <span style={{ color: "black" }}>
           {typingTestData.text.substring(typingTestData.idx)}

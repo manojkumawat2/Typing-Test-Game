@@ -28,7 +28,7 @@ const StartGame = () => {
         Start Typing
       </Button>
       <Typography.Title level={4} style={{ textAlign: "center" }}>
-        Time: {typingTestData.time}
+        Time Taken: {typingTestData.time}
       </Typography.Title>
       <Typography.Title level={4} style={{ textAlign: "center" }}>
         Speed: {isNaN(speed) ? 0 : speed} WPM
